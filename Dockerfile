@@ -202,9 +202,9 @@ RUN mpv --no-video --ao=null --version > /dev/null
 # Copy navidrome binary (musl build for Docker, enables native libwebp)
 COPY --from=build-alpine /out/navidrome /app/
 
-VOLUME ["/data/data", "/data/music"]
-ENV ND_MUSICFOLDER=/data/music
-ENV ND_DATAFOLDER=/data/data
+VOLUME ["/data", "/music"]
+ENV ND_MUSICFOLDER=/music
+ENV ND_DATAFOLDER=/data
 ENV ND_CONFIGFILE=/data/navidrome.toml
 ENV ND_PORT=4533
 RUN touch /.nddockerenv
