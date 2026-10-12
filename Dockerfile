@@ -26,7 +26,7 @@ COPY --from=xx-build /out/ /usr/bin/
 
 ########################################################################################################################
 ### Build Navidrome UI
-FROM --platform=$BUILDPLATFORM node:lts-alpine AS ui
+FROM --platform=${BUILDPLATFORM:-linux/amd64} node:lts-alpine AS ui
 WORKDIR /app
 
 # Install node dependencies
@@ -43,7 +43,7 @@ COPY --from=ui /build /build
 
 ########################################################################################################################
 ### Build Navidrome binary for Docker image (dynamic musl, enables native libwebp via dlopen)
-FROM --platform=$BUILDPLATFORM golang:1.27-alpine AS build-alpine
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.27-alpine AS build-alpine
 COPY --from=xx / /
 
 ARG TARGETPLATFORM
@@ -85,12 +85,12 @@ EOT
 
 ########################################################################################################################
 ### Build Navidrome binary for standalone distribution (static glibc, cross-compiled)
-FROM --platform=$BUILDPLATFORM golang:1.27-trixie AS base
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.27-trixie AS base
 RUN apt-get update && apt-get install -y clang lld
 COPY --from=xx / /
 WORKDIR /workspace
 
-FROM --platform=$BUILDPLATFORM base AS build
+FROM --platform=${BUILDPLATFORM:-linux/amd64} base AS build
 
 # Install build dependencies for the target platform
 ARG TARGETPLATFORM
@@ -156,7 +156,7 @@ COPY --from=build /out /
 ### Build no-op stubs for mpv's video-output libraries
 # mpv links libEGL/libgbm for video output only; Navidrome drives it headless, for audio.
 # Real mesa pulls in LLVM + gallium (+218MB uncompressed), so ship stubs it never calls.
-FROM --platform=$BUILDPLATFORM alpine:3.22 AS mpv-stubs
+FROM --platform=${BUILDPLATFORM:-linux/amd64} alpine:3.22 AS mpv-stubs
 COPY --from=xx / /
 RUN apk add --no-cache clang lld binutils mesa-egl mesa-gbm
 ARG TARGETPLATFORM
