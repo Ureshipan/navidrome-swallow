@@ -1,8 +1,8 @@
-FROM --platform=$BUILDPLATFORM ghcr.io/crazy-max/osxcross:14.5-debian AS osxcross
+FROM --platform=${BUILDPLATFORM:-linux/amd64} ghcr.io/crazy-max/osxcross:14.5-debian AS osxcross
 
 ########################################################################################################################
 ### Build xx (original image: tonistiigi/xx)
-FROM --platform=$BUILDPLATFORM alpine:3.22 AS xx-build
+FROM --platform=${BUILDPLATFORM:-linux/amd64} alpine:3.22 AS xx-build
 
 # v1.9.0
 ENV XX_VERSION=a5592eab7a57895e8d385394ff12241bc65ecd50
