@@ -54,7 +54,7 @@ RUN xx-verify --setup
 
 WORKDIR /workspace
 
-RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
+RUN --mount=type=bind,source=. \
     --mount=type=cache,target=/root/.cache \
     --mount=type=cache,target=/go/pkg/mod \
     go mod download
@@ -62,7 +62,7 @@ RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
 ARG GIT_SHA
 ARG GIT_TAG
 
-RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
+RUN --mount=type=bind,source=. \
     --mount=from=ui,source=/build,target=./ui/build,ro \
     --mount=type=cache,target=/root/.cache \
     --mount=type=cache,target=/go/pkg/mod <<EOT
@@ -98,7 +98,7 @@ ARG TARGETPLATFORM
 RUN xx-apt install -y binutils gcc g++ libc6-dev zlib1g-dev
 RUN xx-verify --setup
 
-RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
+RUN --mount=type=bind,source=. \
     --mount=type=cache,target=/root/.cache \
     --mount=type=cache,target=/go/pkg/mod \
     go mod download
@@ -106,7 +106,7 @@ RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
 ARG GIT_SHA
 ARG GIT_TAG
 
-RUN --mount=type=bind,source=/home/gauter/samos_data/navidrome \
+RUN --mount=type=bind,source=. \
     --mount=from=ui,source=/build,target=./ui/build,ro \
     --mount=from=osxcross,src=/osxcross/SDK,target=/xx-sdk,ro \
     --mount=type=cache,target=/root/.cache \
