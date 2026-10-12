@@ -3,7 +3,7 @@ dockerfile: ./Dockerfile
 domain: navidrome                  # served at navidrome.<base-domain>
 
 ports:
-  - container: 8080
+  - container: 4533
 
 resources:
   cpu: "0.5"
