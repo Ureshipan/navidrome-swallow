@@ -1,0 +1,16 @@
+name: navidrome
+dockerfile: ./Dockerfile
+domain: navidrome                  # served at navidrome.<base-domain>
+
+ports:
+  - container: 8080
+
+resources:
+  cpu: "0.5"
+  memory: "512m"             # /mem button will let you push toward this limit
+
+healthcheck:
+  path: /health
+
+scale:
+  default_instances: 1
