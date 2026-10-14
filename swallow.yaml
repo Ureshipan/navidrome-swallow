@@ -7,7 +7,7 @@ ports:
 
 resources:
   cpu: "0.5"
-  memory: "512m"             # /mem button will let you push toward this limit
+  memory: "1024m"             # /mem button will let you push toward this limit
 
 healthcheck:
   path: /health
